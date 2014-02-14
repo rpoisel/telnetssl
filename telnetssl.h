@@ -15,6 +15,9 @@ public:
     explicit TelnetSSL(QWidget *parent = 0);
     ~TelnetSSL();
 
+public slots:
+    void printInfo();
+
 private:
     Ui::TelnetSSL *ui;
 };
