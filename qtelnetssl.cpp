@@ -1,11 +1,11 @@
 #include <QMessageBox>
 
-#include "telnetssl.h"
+#include "qtelnetssl.h"
 #include "ui_telnetssl.h"
 
-TelnetSSL::TelnetSSL(QWidget *parent) :
+QTelnetSSL::QTelnetSSL(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::TelnetSSL)
+    ui(new Ui::QTelnetSSL)
 {
     ui->setupUi(this);
 
@@ -13,7 +13,7 @@ TelnetSSL::TelnetSSL(QWidget *parent) :
             this, SLOT(printInfo()));
 }
 
-void TelnetSSL::printInfo()
+void QTelnetSSL::printInfo()
 {
     QMessageBox msgBox;
     msgBox.setText("TelnetSSL Version 0.0.1");
@@ -21,7 +21,7 @@ void TelnetSSL::printInfo()
     msgBox.exec();
 }
 
-TelnetSSL::~TelnetSSL()
+QTelnetSSL::~QTelnetSSL()
 {
     delete ui;
 }

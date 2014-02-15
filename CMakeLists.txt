@@ -10,15 +10,15 @@ set(CMAKE_AUTOMOC ON)
 # Find the QtWidgets library
 find_package(Qt5Widgets)
 
-set(telnetssl_FORMS telnetssl.ui)
-set(telnetssl_SOURCES main.cpp telnetssl.cpp)
+set(qtelnetssl_FORMS telnetssl.ui)
+set(qtelnetssl_SOURCES main.cpp qtelnetssl.cpp)
 
-qt5_wrap_ui(telnetssl_FORMS_HEADERS ${telnetssl_FORMS})
+qt5_wrap_ui(qtelnetssl_FORMS_HEADERS ${qtelnetssl_FORMS})
 
-# Tell CMake to create the telnetssl executable
+# Tell CMake to create the qtelnetssl executable
 add_executable(qtelnetssl
-    ${telnetssl_SOURCES}
-    ${telnetssl_FORMS_HEADERS}
+    ${qtelnetssl_SOURCES}
+    ${qtelnetssl_FORMS_HEADERS}
     )
 
 # Use the Widgets module from Qt 5.
