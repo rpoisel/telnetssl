@@ -3,11 +3,12 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-class QTelnetSSL;
+namespace Ui
+{
+    class QTelnetSSL;
 }
 
-class QTelnetSSL : public QMainWindow
+class QTelnetSSL: public QMainWindow
 {
     Q_OBJECT
 
