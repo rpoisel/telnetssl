@@ -16,10 +16,10 @@ set(telnetssl_SOURCES main.cpp telnetssl.cpp)
 qt5_wrap_ui(telnetssl_FORMS_HEADERS ${telnetssl_FORMS})
 
 # Tell CMake to create the telnetssl executable
-add_executable(telnetssl
+add_executable(qtelnetssl
     ${telnetssl_SOURCES}
     ${telnetssl_FORMS_HEADERS}
     )
 
 # Use the Widgets module from Qt 5.
-qt5_use_modules(telnetssl Widgets)
+qt5_use_modules(qtelnetssl Widgets)
