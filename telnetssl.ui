@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QTelnetSSL</class>
- <widget class="QMainWindow" name="QTelnetSSL">
+ <class>TelnetSSL</class>
+ <widget class="QMainWindow" name="TelnetSSL">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -71,7 +71,7 @@
   <connection>
    <sender>actionExit</sender>
    <signal>triggered()</signal>
-   <receiver>QTelnetSSL</receiver>
+   <receiver>TelnetSSL</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">

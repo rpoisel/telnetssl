@@ -9,9 +9,10 @@ set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
 find_package(Qt5Widgets)
+find_package(Qt5Network)
 
-set(qtelnetssl_FORMS telnetssl.ui)
-set(qtelnetssl_SOURCES main.cpp qtelnetssl.cpp)
+set(qtelnetssl_FORMS telnetssl.ui sslcomm.ui)
+set(qtelnetssl_SOURCES main.cpp qtelnetssl.cpp sslcomm.cpp)
 
 qt5_wrap_ui(qtelnetssl_FORMS_HEADERS ${qtelnetssl_FORMS})
 

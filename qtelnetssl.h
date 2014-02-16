@@ -3,9 +3,11 @@
 
 #include <QMainWindow>
 
+#include "sslcomm.h"
+
 namespace Ui
 {
-    class QTelnetSSL;
+    class TelnetSSL;
 }
 
 class QTelnetSSL: public QMainWindow
@@ -20,7 +22,8 @@ public slots:
     void printInfo();
 
 private:
-    Ui::QTelnetSSL *ui;
+    Ui::TelnetSSL *ui;
+    SslComm *mainForm;
 };
 
 #endif // QTELNETSSL_H
