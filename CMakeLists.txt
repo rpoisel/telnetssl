@@ -1,3 +1,6 @@
+# see
+#   * http://qt-project.org/doc/qt-5/cmake-manual.html
+#   * http://www.vtk.org/Wiki/Eclipse_CDT4_Generator
 cmake_minimum_required(VERSION 2.8.9)
 
 project(telnetssl)
