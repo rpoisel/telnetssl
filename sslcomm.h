@@ -16,6 +16,9 @@ public:
     explicit SslComm(QWidget *parent = 0);
     ~SslComm();
 
+public slots:
+    void changeConnectionState();
+
 private:
     Ui::SslComm *ui;
     QSslSocket* socket;
