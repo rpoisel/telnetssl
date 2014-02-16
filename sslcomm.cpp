@@ -16,6 +16,10 @@ SslComm::SslComm(QWidget *parent) :
 SslComm::~SslComm()
 {
     delete ui;
+    if (socket)
+    {
+        delete socket;
+    }
 }
 
 void SslComm::changeConnectionState()
