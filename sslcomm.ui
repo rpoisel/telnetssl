@@ -14,12 +14,46 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0" colspan="5">
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelHost">
+     <property name="text">
+      <string>Host:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4" colspan="2">
+    <widget class="QPushButton" name="buttonConnect">
+     <property name="text">
+      <string>&amp;Connect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="host">
+     <property name="text">
+      <string>localhost</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="6">
     <widget class="QLineEdit" name="input">
      <property name="font">
       <font>
        <family>Courier</family>
       </font>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QSpinBox" name="port">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>65535</number>
+     </property>
+     <property name="value">
+      <number>8888</number>
      </property>
     </widget>
    </item>
@@ -29,16 +63,6 @@
       <string>Port:</string>
      </property>
     </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelHost">
-     <property name="text">
-      <string>Host:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="host"/>
    </item>
    <item row="1" column="0" colspan="6">
     <widget class="QTextEdit" name="output">
@@ -51,16 +75,6 @@
       <bool>true</bool>
      </property>
     </widget>
-   </item>
-   <item row="0" column="4">
-    <widget class="QPushButton" name="connect">
-     <property name="text">
-      <string>&amp;Connect</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QLineEdit" name="port"/>
    </item>
   </layout>
  </widget>

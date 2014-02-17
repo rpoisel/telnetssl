@@ -1,8 +1,17 @@
 #ifndef SSLCOMM_H
 #define SSLCOMM_H
 
-#include <QWidget>
-#include <QtNetwork/QSslSocket>
+#include <qabstractsocket.h>
+#include <qlist.h>
+#include <qobjectdefs.h>
+#include <qsslerror.h>
+#include <qstring.h>
+
+class QLabel;
+
+class QStatusBar;
+
+class QSslSocket;
 
 namespace Ui {
 class SslComm;
@@ -15,13 +24,21 @@ class SslComm : public QWidget
 public:
     explicit SslComm(QWidget *parent = 0);
     ~SslComm();
+    void setStatus(QLabel* labelStatus);
 
 public slots:
     void changeConnectionState();
+    void socketStateChanged(QAbstractSocket::SocketState state);
+    void socketEncrypted();
+    void sslErrors(QList<QSslError> errors);
+    void socketReadyRead();
 
 private:
     Ui::SslComm *ui;
+    QLabel* labelStatus;
     QSslSocket* socket;
+
+    void changeStatus(QString status);
 };
 
 #endif // SSLCOMM_H
