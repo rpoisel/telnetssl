@@ -1,5 +1,8 @@
-#include "dialogsslerrors.h"
-#include "ui_dialogsslerrors.h"
+#include <dialogsslerrors.h>
+#include <qcolor.h>
+#include <qlistwidget.h>
+#include <qstring.h>
+#include <ui_dialogsslerrors.h>
 
 DialogSslErrors::DialogSslErrors(QWidget *parent) :
     QDialog(parent),
@@ -11,4 +14,12 @@ DialogSslErrors::DialogSslErrors(QWidget *parent) :
 DialogSslErrors::~DialogSslErrors()
 {
     delete ui;
+}
+
+
+void DialogSslErrors::addError(QString errorMessage)
+{
+    QListWidgetItem* item = new QListWidgetItem(errorMessage);
+    item->setForeground(QColor::fromRgb(255, 0, 0));
+    ui->listWidget->addItem(item);
 }

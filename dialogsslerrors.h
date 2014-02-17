@@ -14,6 +14,7 @@ class DialogSslErrors : public QDialog
 public:
     explicit DialogSslErrors(QWidget *parent = 0);
     ~DialogSslErrors();
+    void addError(QString errorMessage);
 
 private:
     Ui::DialogSslErrors *ui;

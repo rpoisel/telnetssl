@@ -1,3 +1,5 @@
+#include <dialogsslerrors.h>
+#include <qdialog.h>
 #include <qglobal.h>
 #include <qlabel.h>
 #include <qlineedit.h>
@@ -6,12 +8,11 @@
 #include <qsslcipher.h>
 #include <qsslsocket.h>
 #include <sslcomm.h>
-#include <dialogsslerrors.h>
 #include <ui_sslcomm.h>
-/* #include <ui_dialogsslerrors.h> */
 
 SslComm::SslComm(QWidget *parent) :
-        QWidget(parent), ui(new Ui::SslComm), labelStatus(0), socket(0)
+        QWidget(parent), ui(new Ui::SslComm), labelStatus(0), socket(
+                new QSslSocket(this))
 {
     ui->setupUi(this);
 
@@ -19,6 +20,15 @@ SslComm::SslComm(QWidget *parent) :
 
     connect(ui->buttonConnect, SIGNAL(clicked()), this,
             SLOT(changeConnectionState()));
+
+    connect(socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this,
+            SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+    connect(socket, SIGNAL(encrypted()), this, SLOT(socketEncrypted()));
+    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this,
+            SLOT(socketError(QAbstractSocket::SocketError)));
+    connect(socket, SIGNAL(sslErrors(QList<QSslError>)), this,
+            SLOT(sslErrors(QList<QSslError>)));
+    connect(socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
 }
 
 SslComm::~SslComm()
@@ -37,48 +47,33 @@ void SslComm::setLabelStatus(QLabel* labelStatus)
 
 void SslComm::changeConnectionState()
 {
-    if (!socket)
+    if (socket->state() == QAbstractSocket::UnconnectedState)
     {
-        socket = new QSslSocket(this);
-
-        connect(socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-                this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
-        connect(socket, SIGNAL(encrypted()), this, SLOT(socketEncrypted()));
-        connect(socket, SIGNAL(sslErrors(QList<QSslError>)), this,
-                SLOT(sslErrors(QList<QSslError>)));
-        connect(socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
-
         socket->connectToHostEncrypted(ui->host->text(), ui->port->value());
-
-        // update UI
-        ui->buttonConnect->setText("&Disconnect");
     }
     else
     {
-        // TODO tear down SSL connection
-
-        // TODO remove SSL socket
-        delete socket;
-        socket = 0;
-
-        // update UI
-        ui->buttonConnect->setText("&Connect");
+        socket->disconnectFromHost();
     }
 }
 
 void SslComm::socketStateChanged(QAbstractSocket::SocketState state)
 {
-    if (QAbstractSocket::UnconnectedState == state)
+    switch (state)
     {
-        setStatus("Unconnected.");
-    }
-    else if (QAbstractSocket::ConnectingState == state)
-    {
-        setStatus("Connecting ...");
-    }
-    else if (QAbstractSocket::ConnectedState == state)
-    {
-        setStatus("Connected.");
+        case QAbstractSocket::UnconnectedState:
+            setStatus("Unconnected.");
+            ui->buttonConnect->setText("&Connect");
+            break;
+        case QAbstractSocket::ConnectingState:
+            setStatus("Connecting ...");
+            break;
+        case QAbstractSocket::ConnectedState:
+            setStatus("Connected.");
+            ui->buttonConnect->setText("&Disconnect");
+            break;
+        default:
+            break;
     }
 }
 
@@ -95,6 +90,18 @@ void SslComm::socketEncrypted()
                     ciph.name()).arg(ciph.usedBits()).arg(ciph.supportedBits());
 }
 
+void SslComm::socketError(QAbstractSocket::SocketError socketError)
+{
+    switch (socketError)
+    {
+        case QAbstractSocket::HostNotFoundError:
+            setStatus("Host not found.");
+            break;
+        default:
+            break;
+    }
+}
+
 void SslComm::sslErrors(QList<QSslError> errors)
 {
     if (errors.length() == 0)
@@ -103,13 +110,21 @@ void SslComm::sslErrors(QList<QSslError> errors)
     }
 
     DialogSslErrors errorDialog(this);
-    foreach(const QSslError& error, errors)
-    {
-        // add error messages to list
-    }
+    foreach(const QSslError& error, errors){
+    errorDialog.addError(error.errorString());
+}
     if (errorDialog.exec() == QDialog::Accepted)
     {
-            socket->ignoreSslErrors(errors);
+        socket->ignoreSslErrors(errors);
+    }
+    else
+    {
+        socket->disconnectFromHost();
+    }
+
+    if (socket->state() != QAbstractSocket::ConnectedState)
+    {
+        socketStateChanged(socket->state());
     }
 }
 

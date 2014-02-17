@@ -30,6 +30,7 @@ public slots:
     void changeConnectionState();
     void socketStateChanged(QAbstractSocket::SocketState state);
     void socketEncrypted();
+    void socketError(QAbstractSocket::SocketError socketError);
     void sslErrors(QList<QSslError> errors);
     void socketReadyRead();
 
