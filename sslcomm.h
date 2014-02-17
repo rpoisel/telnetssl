@@ -33,6 +33,7 @@ public slots:
     void socketError(QAbstractSocket::SocketError socketError);
     void sslErrors(QList<QSslError> errors);
     void socketReadyRead();
+    void sendData();
 
 private:
     Ui::SslComm *ui;

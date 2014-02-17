@@ -4,9 +4,12 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
+#include <qscrollbar.h>
 #include <qspinbox.h>
 #include <qsslcipher.h>
 #include <qsslsocket.h>
+#include <qtextcursor.h>
+#include <qtextedit.h>
 #include <sslcomm.h>
 #include <ui_sslcomm.h>
 
@@ -29,6 +32,8 @@ SslComm::SslComm(QWidget *parent) :
     connect(socket, SIGNAL(sslErrors(QList<QSslError>)), this,
             SLOT(sslErrors(QList<QSslError>)));
     connect(socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
+
+    connect(ui->input, SIGNAL(returnPressed()), this, SLOT(sendData()));
 }
 
 SslComm::~SslComm()
@@ -71,6 +76,7 @@ void SslComm::socketStateChanged(QAbstractSocket::SocketState state)
         case QAbstractSocket::ConnectedState:
             setStatus("Connected.");
             ui->buttonConnect->setText("&Disconnect");
+            ui->input->setFocus();
             break;
         default:
             break;
@@ -130,7 +136,18 @@ void SslComm::sslErrors(QList<QSslError> errors)
 
 void SslComm::socketReadyRead()
 {
+    QString result = QString::fromUtf8(socket->readAll());
+    QTextCursor cursor = ui->output->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText(result);
+    ui->output->verticalScrollBar()->setValue(ui->output->verticalScrollBar()->maximum());
+}
 
+void SslComm::sendData()
+{
+    socket->write(ui->input->text().toUtf8());
+    socket->write("\n");
+    ui->input->setText("");
 }
 
 void SslComm::setStatus(QString status)
