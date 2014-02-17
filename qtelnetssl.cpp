@@ -17,7 +17,7 @@ QTelnetSSL::QTelnetSSL(QWidget *parent) :
 
     QLabel* statusLabel = new QLabel;
     statusBar()->addWidget(statusLabel, 1);
-    mainForm->setStatus(statusLabel);
+    mainForm->setLabelStatus(statusLabel);
 
     connect(ui->actionInfo, SIGNAL(triggered()), this,
             SLOT(printInfo()));

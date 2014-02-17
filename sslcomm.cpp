@@ -6,8 +6,9 @@
 #include <qsslcipher.h>
 #include <qsslsocket.h>
 #include <sslcomm.h>
+#include <dialogsslerrors.h>
 #include <ui_sslcomm.h>
-#include <iostream>
+/* #include <ui_dialogsslerrors.h> */
 
 SslComm::SslComm(QWidget *parent) :
         QWidget(parent), ui(new Ui::SslComm), labelStatus(0), socket(0)
@@ -29,7 +30,7 @@ SslComm::~SslComm()
     }
 }
 
-void SslComm::setStatus(QLabel* labelStatus)
+void SslComm::setLabelStatus(QLabel* labelStatus)
 {
     this->labelStatus = labelStatus;
 }
@@ -69,15 +70,15 @@ void SslComm::socketStateChanged(QAbstractSocket::SocketState state)
 {
     if (QAbstractSocket::UnconnectedState == state)
     {
-        changeStatus("Unconnected.");
+        setStatus("Unconnected.");
     }
     else if (QAbstractSocket::ConnectingState == state)
     {
-        changeStatus("Connecting ...");
+        setStatus("Connecting ...");
     }
     else if (QAbstractSocket::ConnectedState == state)
     {
-        changeStatus("Connected.");
+        setStatus("Connected.");
     }
 }
 
@@ -96,9 +97,19 @@ void SslComm::socketEncrypted()
 
 void SslComm::sslErrors(QList<QSslError> errors)
 {
+    if (errors.length() == 0)
+    {
+        return;
+    }
+
+    DialogSslErrors errorDialog(this);
     foreach(const QSslError& error, errors)
     {
-        std::cout << error.errorString().toStdString() << std::endl;
+        // add error messages to list
+    }
+    if (errorDialog.exec() == QDialog::Accepted)
+    {
+            socket->ignoreSslErrors(errors);
     }
 }
 
@@ -107,7 +118,7 @@ void SslComm::socketReadyRead()
 
 }
 
-void SslComm::changeStatus(QString status)
+void SslComm::setStatus(QString status)
 {
     if (labelStatus)
     {

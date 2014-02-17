@@ -24,7 +24,7 @@ class SslComm : public QWidget
 public:
     explicit SslComm(QWidget *parent = 0);
     ~SslComm();
-    void setStatus(QLabel* labelStatus);
+    void setLabelStatus(QLabel* labelStatus);
 
 public slots:
     void changeConnectionState();
@@ -38,7 +38,7 @@ private:
     QLabel* labelStatus;
     QSslSocket* socket;
 
-    void changeStatus(QString status);
+    void setStatus(QString status);
 };
 
 #endif // SSLCOMM_H
