@@ -7,14 +7,17 @@
 #include <qsslerror.h>
 #include <qstring.h>
 
+class QTcpSocket;
+
 class QLabel;
 
 class QStatusBar;
 
 class QSslSocket;
 
-namespace Ui {
-class SslComm;
+namespace Ui
+{
+    class SslComm;
 }
 
 class SslComm : public QWidget
