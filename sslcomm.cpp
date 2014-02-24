@@ -68,6 +68,7 @@ void SslComm::socketStateChanged(QAbstractSocket::SocketState state)
     {
         case QAbstractSocket::UnconnectedState:
             setStatus("Unconnected.");
+            ui->input->setEnabled(false);
             ui->buttonConnect->setText("&Connect");
             break;
         case QAbstractSocket::ConnectingState:
@@ -76,6 +77,7 @@ void SslComm::socketStateChanged(QAbstractSocket::SocketState state)
         case QAbstractSocket::ConnectedState:
             setStatus("Connected.");
             ui->buttonConnect->setText("&Disconnect");
+            ui->input->setEnabled(true);
             ui->input->setFocus();
             break;
         default:
